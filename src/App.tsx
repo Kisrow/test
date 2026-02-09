@@ -1,8 +1,14 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { RequireAuth } from "./app/routes/RequireAuth";
+import { LoginForm } from "./features/auth/LoginForm";
+import { Center } from "@mantine/core";
 
 function LoginPage() {
-  return <div>Login</div>;
+  return (
+    <Center style={{ minHeight: "100vh" }}>
+      <LoginForm />
+    </Center>
+  );
 }
 
 function ProductsPage() {
