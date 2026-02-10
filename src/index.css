@@ -6,7 +6,17 @@
 
 html,
 body {
+  font-family: var(--third-family);
+
   height: 100%;
   margin: 0;
   background-color: #f9f9f9;
+}
+
+:root {
+  --font-family: "Cairo", sans-serif;
+  --second-family: "Open Sans", sans-serif;
+  --third-family: "Inter", sans-serif;
+  --font4: "Roboto Mono", sans-serif;
+  --font5: "Roboto", sans-serif;
 }
