@@ -3,32 +3,36 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  Anchor,
   Button,
   Checkbox,
+  Divider,
+  Group,
   Paper,
   PasswordInput,
   Stack,
   Text,
-  TextInput,
   Title,
 } from "@mantine/core";
 import { LoginSchema, type LoginFormValues } from "./login.schema";
 import { login } from "../../shared/api/auth";
 import { setToken } from "../../shared/auth/storage";
-import { IconLock, IconUser } from "@tabler/icons-react";
+import { IconLock } from "@tabler/icons-react";
 import { LoginCard } from "./LoginCard";
 import styles from "./Login.module.css";
+import { UsernameInput } from "./ui/UsernameInput";
 
 export function LoginForm() {
   const navigate = useNavigate();
 
   const [apiError, setApiError] = useState<string | null>(null);
 
-  const { register, handleSubmit, formState } = useForm<LoginFormValues>({
-    resolver: zodResolver(LoginSchema),
-    defaultValues: { remember: false },
-    mode: "onChange",
-  });
+  const { control, register, handleSubmit, formState } =
+    useForm<LoginFormValues>({
+      resolver: zodResolver(LoginSchema),
+      defaultValues: { remember: false },
+      mode: "onChange",
+    });
 
   const onSubmit = async (values: LoginFormValues) => {
     setApiError(null);
@@ -44,15 +48,14 @@ export function LoginForm() {
 
   return (
     <LoginCard>
-      <Stack gap="lg">
+      <Stack gap={32}>
         <Stack align="center">
           <Paper
             w={52}
             h={52}
             radius="xl"
-            withBorder
             display="flex"
-            style={{ alignItems: "center", justifyContent: "center" }}
+            className={styles.login}
           >
             <img src="/logo.svg" alt="logo" />
           </Paper>
@@ -64,15 +67,7 @@ export function LoginForm() {
           <Text className={styles.subtitle}>Пожалуйста, авторизируйтесь</Text>
         </Stack>
         <Stack gap="md" component="form" onSubmit={handleSubmit(onSubmit)}>
-          <TextInput
-            label="Логин"
-            placeholder="Логин"
-            autoComplete="username"
-            error={formState.errors.username?.message}
-            leftSection={<IconUser size={18} stroke={1.5} color="#C9C9C9" />}
-            {...register("username")}
-          />
-
+          <UsernameInput control={control} errors={formState.errors} />
           <PasswordInput
             label="Пароль"
             placeholder="Пароль"
@@ -97,7 +92,29 @@ export function LoginForm() {
           <Button type="submit" loading={formState.isSubmitting} fullWidth>
             Войти
           </Button>
+          <Group gap="md" align="center">
+            <Divider flex={1} />
+            <Text size="sm" c="dimmed">
+              или
+            </Text>
+            <Divider flex={1} />
+          </Group>
         </Stack>
+        <Group justify="center" gap={6}>
+          <Text size="md" c="#9c9c9c">
+            Нет аккаунта?
+          </Text>
+          <Anchor
+            size="md"
+            fw={700}
+            c="#2b3bd6"
+            underline="always"
+            href="#"
+            onClick={(e) => e.preventDefault()}
+          >
+            Создать
+          </Anchor>
+        </Group>
       </Stack>
     </LoginCard>
   );
