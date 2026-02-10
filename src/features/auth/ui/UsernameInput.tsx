@@ -1,6 +1,6 @@
 import { Controller, type Control, type FieldErrors } from "react-hook-form";
-import { ActionIcon, TextInput } from "@mantine/core";
-import { IconUser, IconX } from "@tabler/icons-react";
+import { CloseButton, TextInput } from "@mantine/core";
+import { IconUser } from "@tabler/icons-react";
 import type { LoginFormValues } from "../login.schema";
 
 type Props = {
@@ -26,13 +26,11 @@ export function UsernameInput({ control, errors }: Props) {
             {...field}
             rightSection={
               hasValue ? (
-                <ActionIcon
-                  variant="subtle"
-                  onClick={() => field.onChange("")}
+                <CloseButton
                   aria-label="Очистить"
-                >
-                  <IconX size={16} stroke={1.5} color="#C9C9C9" />
-                </ActionIcon>
+                  onClick={() => field.onChange("")}
+                  c={"#C9C9C9"}
+                />
               ) : null
             }
             rightSectionPointerEvents="all"

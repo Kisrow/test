@@ -18,7 +18,7 @@ import { LoginSchema, type LoginFormValues } from "./login.schema";
 import { login } from "../../shared/api/auth";
 import { setToken } from "../../shared/auth/storage";
 import { IconLock } from "@tabler/icons-react";
-import { LoginCard } from "./LoginCard";
+import { LoginCard } from "./ui/LoginCard";
 import styles from "./Login.module.css";
 import { UsernameInput } from "./ui/UsernameInput";
 
@@ -30,7 +30,7 @@ export function LoginForm() {
   const { control, register, handleSubmit, formState } =
     useForm<LoginFormValues>({
       resolver: zodResolver(LoginSchema),
-      defaultValues: { remember: false },
+      defaultValues: { remember: false, password: "", username: "" },
       mode: "onChange",
     });
 
