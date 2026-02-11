@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,18 +13,18 @@ import {
   Text,
   Title,
 } from "@mantine/core";
-import { LoginSchema, type LoginFormValues } from "./login.schema";
-import { login } from "../../shared/api/auth";
-import { setToken } from "../../shared/auth/storage";
 import { IconLock } from "@tabler/icons-react";
+import { LoginSchema, type LoginFormValues } from "./login.schema";
+import { setToken } from "../../shared/auth/storage";
 import { LoginCard } from "./ui/LoginCard";
-import styles from "./Login.module.css";
 import { UsernameInput } from "./ui/UsernameInput";
+import { useLogin } from "../../shared/api/hooks";
+import styles from "./Login.module.css";
 
 export function LoginForm() {
   const navigate = useNavigate();
 
-  const [apiError, setApiError] = useState<string | null>(null);
+  const { mutate: login, isError, isPending } = useLogin();
 
   const { setFocus, control, register, handleSubmit, formState } =
     useForm<LoginFormValues>({
@@ -34,16 +33,17 @@ export function LoginForm() {
       mode: "onChange",
     });
 
-  const onSubmit = async (values: LoginFormValues) => {
-    setApiError(null);
+  const onSubmit = (values: LoginFormValues) => {
     const { username, password, remember } = values;
-    try {
-      const { accessToken } = await login({ username, password });
-      setToken(accessToken, remember);
-      navigate("/products");
-    } catch {
-      setApiError("Неправильно введен логин или пароль");
-    }
+    login(
+      { username, password },
+      {
+        onSuccess: ({ accessToken }) => {
+          setToken(accessToken, remember);
+          navigate("/products");
+        },
+      },
+    );
   };
 
   return (
@@ -94,16 +94,16 @@ export function LoginForm() {
             {...register("remember")}
           />
 
-          {apiError && (
+          {isError && (
             <Text c="red" size="sm">
-              {apiError}
+              {"Неправильно введен логин или пароль"}
             </Text>
           )}
 
           <Button
             className={styles.button}
             type="submit"
-            loading={formState.isSubmitting}
+            loading={formState.isSubmitting || isPending}
             radius={12}
             size="lg"
             h={55}

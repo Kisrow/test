@@ -6,13 +6,16 @@ import "@mantine/notifications/styles.css";
 import "./index.css";
 import App from "./App.tsx";
 import { UIProvider } from "./app/UIProvider.tsx";
+import { QueryProvider } from "./app/QueryProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <UIProvider>
-        <App />
-      </UIProvider>
-    </BrowserRouter>
+    <QueryProvider>
+      <BrowserRouter>
+        <UIProvider>
+          <App />
+        </UIProvider>
+      </BrowserRouter>
+    </QueryProvider>
   </StrictMode>,
 );
