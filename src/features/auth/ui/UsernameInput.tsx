@@ -23,6 +23,8 @@ export function UsernameInput({ control, errors }: Props) {
             autoComplete="username"
             error={errors.username?.message}
             leftSection={<IconUser size={18} stroke={1.5} color="#C9C9C9" />}
+            radius={12}
+            size="lg"
             {...field}
             rightSection={
               hasValue ? (

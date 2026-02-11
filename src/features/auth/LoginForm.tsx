@@ -48,34 +48,37 @@ export function LoginForm() {
 
   return (
     <LoginCard>
-      <Stack gap={32}>
-        <Stack align="center">
-          <Paper
-            w={52}
-            h={52}
-            radius="xl"
-            display="flex"
-            className={styles.login}
-          >
-            <img src="/logo.svg" alt="logo" />
-          </Paper>
-        </Stack>
+      <Stack mx={"auto"} gap="xl" w={399} justify="center">
+        <Paper w={52} h={52} radius="xl" className={styles.logo}>
+          <img src="/logo.svg" alt="logo" />
+        </Paper>
+
         <Stack>
           <Title order={1} className={styles.title}>
             Добро пожаловать!
           </Title>
           <Text className={styles.subtitle}>Пожалуйста, авторизируйтесь</Text>
         </Stack>
-        <Stack gap="md" component="form" onSubmit={handleSubmit(onSubmit)}>
-          <UsernameInput control={control} errors={formState.errors} />
-          <PasswordInput
-            label="Пароль"
-            placeholder="Пароль"
-            autoComplete="current-password"
-            error={formState.errors.password?.message}
-            leftSection={<IconLock size={18} stroke={1.5} color="#C9C9C9" />}
-            {...register("password")}
-          />
+
+        <Stack
+          justify="flex-start"
+          gap="lg"
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <Stack gap={"md"}>
+            <UsernameInput control={control} errors={formState.errors} />
+            <PasswordInput
+              label="Пароль"
+              placeholder="Пароль"
+              autoComplete="current-password"
+              error={formState.errors.password?.message}
+              leftSection={<IconLock size={18} stroke={1.5} color="#C9C9C9" />}
+              radius={12}
+              size="lg"
+              {...register("password")}
+            />
+          </Stack>
 
           <Checkbox
             c={"#9c9c9c"}
@@ -89,9 +92,18 @@ export function LoginForm() {
             </Text>
           )}
 
-          <Button type="submit" loading={formState.isSubmitting} fullWidth>
+          <Button
+            className={styles.button}
+            type="submit"
+            loading={formState.isSubmitting}
+            radius={12}
+            size="lg"
+            h={55}
+            fullWidth
+          >
             Войти
           </Button>
+
           <Group gap="md" align="center">
             <Divider flex={1} />
             <Text size="sm" c="dimmed">
@@ -100,6 +112,7 @@ export function LoginForm() {
             <Divider flex={1} />
           </Group>
         </Stack>
+
         <Group justify="center" gap={6}>
           <Text size="md" c="#9c9c9c">
             Нет аккаунта?
