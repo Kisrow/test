@@ -27,7 +27,7 @@ export function LoginForm() {
 
   const [apiError, setApiError] = useState<string | null>(null);
 
-  const { control, register, handleSubmit, formState } =
+  const { setFocus, control, register, handleSubmit, formState } =
     useForm<LoginFormValues>({
       resolver: zodResolver(LoginSchema),
       defaultValues: { remember: false, password: "", username: "" },
@@ -67,7 +67,11 @@ export function LoginForm() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <Stack gap={"md"}>
-            <UsernameInput control={control} errors={formState.errors} />
+            <UsernameInput
+              setFocus={setFocus}
+              control={control}
+              errors={formState.errors}
+            />
             <PasswordInput
               label="Пароль"
               placeholder="Пароль"
@@ -83,6 +87,10 @@ export function LoginForm() {
           <Checkbox
             c={"#9c9c9c"}
             label="Запомнить данные"
+            styles={{
+              input: { cursor: "pointer" },
+              label: { cursor: "pointer" },
+            }}
             {...register("remember")}
           />
 
