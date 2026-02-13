@@ -18,7 +18,7 @@ import { LoginSchema, type LoginFormValues } from "./login.schema";
 import { setToken } from "../../shared/auth/storage";
 import { LoginCard } from "./ui/LoginCard";
 import { UsernameInput } from "./ui/UsernameInput";
-import { useLogin } from "../../shared/api/hooks";
+import { useLogin } from "../../shared/api/useLogin";
 import styles from "./Login.module.css";
 
 export function LoginForm() {
