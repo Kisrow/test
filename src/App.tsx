@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { RequireAuth } from "./app/routes/RequireAuth";
 import { LoginForm } from "./features/auth/LoginForm";
 import { Center } from "@mantine/core";
+import { Products } from "./features/products/Products";
 
 function LoginPage() {
   return (
@@ -12,7 +13,7 @@ function LoginPage() {
 }
 
 function ProductsPage() {
-  return <div>Products</div>;
+  return <Products />;
 }
 
 export default function App() {
