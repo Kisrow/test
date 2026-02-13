@@ -3,8 +3,9 @@ import {
   type Product,
   type ProductsResponse,
 } from "../../features/products/products.schema";
+import { getToken } from "../auth/storage";
 
-const BASE_URL = "https://dummyjson.com";
+const BASE_URL = "https://dummyjson.com/auth";
 
 const SELECT = "id,title,category,brand,sku,rating,price,thumbnail";
 
@@ -45,8 +46,21 @@ export const getProducts = async (
 ): Promise<ProductsResponse> => {
   const url = buildProductsUrl(params);
 
-  const res = await fetch(url);
-  if (!res.ok) throw new Error("Произошла ошибка во время запроса");
+  const token = getToken();
+
+  const res = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      ...(token && { Authorization: `Bearer ${token}` }),
+    },
+  });
+
+  if (!res.ok) {
+    if (res.status === 401) {
+      throw new Error("Не авторизован");
+    }
+    throw new Error("Произошла ошибка во время запроса");
+  }
 
   return ProductsResponseSchema.parse(await res.json());
 };
